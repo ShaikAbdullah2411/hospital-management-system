@@ -1,0 +1,31 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: ApiGateway
+  cloud:
+    gateway:
+      routes:
+        - id: AUTHSERVICE
+          uri: lb://AUTHSERVICE
+          predicates:
+          - Path=/auth/**
+
+        - id: DOCTORSERVICE
+          uri: lb://DOCTORSERVICE
+          predicates:
+           - Path=/doctor/**
+
+        - id: PATIENTSERVICE
+          uri: lb://PATIENTSERVICE
+          predicates:
+            - Path=/patient/**
+
+        - id: APPOINTMENTSERVICE
+          uri: lb://APPOINTMENTSERVICE
+          predicates:
+            - Path=/appointments/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
