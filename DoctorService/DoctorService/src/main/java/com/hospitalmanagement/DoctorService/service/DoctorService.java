@@ -1,9 +1,12 @@
 package com.hospitalmanagement.DoctorService.service;
 
+import com.hospitalmanagement.DoctorService.dto.CreateDoctorRequest;
 import com.hospitalmanagement.DoctorService.dto.DoctorRequest;
+import com.hospitalmanagement.DoctorService.dto.DoctorResponse;
 import com.hospitalmanagement.DoctorService.entity.Doctor;
 import com.hospitalmanagement.DoctorService.entity.Specialization;
 import com.hospitalmanagement.DoctorService.exception.DoctorNotFoundException;
+import com.hospitalmanagement.DoctorService.feign.AuthFeignClient;
 import com.hospitalmanagement.DoctorService.repository.DoctorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,9 +20,23 @@ public class DoctorService {
 
     private final DoctorRepository doctorRepository;
 
+    private final AuthFeignClient authFeignClient;
+
+
     public Doctor addDoctor(DoctorRequest request){
 
-        Doctor doctor = Doctor.builder().doctorname(request.getDoctorname())
+        CreateDoctorRequest authRequest = new CreateDoctorRequest();
+
+        authRequest.setUsername(request.getDoctorname());
+        authRequest.setEmail(request.getEmail());
+        authRequest.setPassword(request.getPassword()); // You'll add this field
+
+        DoctorResponse user = authFeignClient.createDoctor(authRequest);
+
+
+        Doctor doctor = Doctor.builder()
+                .userId(user.getId())
+                .doctorname(request.getDoctorname())
                 .email(request.getEmail())
                 .specialization(request.getSpecialization())
                 .phone(request.getPhone())

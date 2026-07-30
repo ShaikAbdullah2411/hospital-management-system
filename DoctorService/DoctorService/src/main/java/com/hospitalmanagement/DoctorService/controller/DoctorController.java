@@ -3,6 +3,7 @@ package com.hospitalmanagement.DoctorService.controller;
 import com.hospitalmanagement.DoctorService.dto.DoctorRequest;
 import com.hospitalmanagement.DoctorService.entity.Doctor;
 import com.hospitalmanagement.DoctorService.entity.Specialization;
+import com.hospitalmanagement.DoctorService.feign.AuthFeignClient;
 import com.hospitalmanagement.DoctorService.service.DoctorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

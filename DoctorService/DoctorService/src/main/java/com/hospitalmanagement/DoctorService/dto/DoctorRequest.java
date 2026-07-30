@@ -24,6 +24,8 @@ public class DoctorRequest {
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be 10 digits")
     private String phone;
 
+    private String password;
+
     private LocalTime availableFrom;
 
     private LocalTime availableTo;

@@ -1,0 +1,42 @@
+[
+	{
+		"id" : 1,
+		"active" : "1",
+		"available_from" : "10:00",
+		"available_to" : "18:00",
+		"doctorname" : "Dr Smith",
+		"email" : "smith@gmail.com",
+		"phone" : "9999999999",
+		"specialization" : "GENERALPHYSICIAN"
+	},
+	{
+		"id" : 2,
+		"active" : "1",
+		"available_from" : "10:00",
+		"available_to" : "18:00",
+		"doctorname" : "Dr ayesha",
+		"email" : "ayesha@gmail.com",
+		"phone" : "987654321",
+		"specialization" : "ORTHO"
+	},
+	{
+		"id" : 3,
+		"active" : "1",
+		"available_from" : "10:00",
+		"available_to" : "18:00",
+		"doctorname" : "Dr fathima",
+		"email" : "fatima@gmail.com",
+		"phone" : "789654321",
+		"specialization" : "NEUROLOGIST"
+	},
+	{
+		"id" : 4,
+		"active" : "1",
+		"available_from" : "10:00",
+		"available_to" : "18:00",
+		"doctorname" : "Dr hashmi",
+		"email" : "hashmi@gmail.com",
+		"phone" : "789654321",
+		"specialization" : "NEUROLOGIST"
+	}
+]

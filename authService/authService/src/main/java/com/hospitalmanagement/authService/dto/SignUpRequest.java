@@ -18,5 +18,5 @@ public class SignUpRequest {
     @Size(min = 6)
     private String password;
 
-    private UserRole role;
+//    private UserRole role;
 }

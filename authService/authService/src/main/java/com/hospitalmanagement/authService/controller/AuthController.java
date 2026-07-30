@@ -1,7 +1,6 @@
 package com.hospitalmanagement.authService.controller;
-import com.hospitalmanagement.authService.dto.AuthResponse;
-import com.hospitalmanagement.authService.dto.LoginRequest;
-import com.hospitalmanagement.authService.dto.SignUpRequest;
+import com.hospitalmanagement.authService.dto.*;
+import com.hospitalmanagement.authService.entity.User;
 import com.hospitalmanagement.authService.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +59,18 @@ public class AuthController {
         }
 
     }
+    @PostMapping("/create-doctor")
+    public ResponseEntity<DoctorResponse> createDoctor(@RequestBody CreateDoctorRequest request){
+
+        return ResponseEntity.ok(authService.createDoctor(request));
+    }
+
+    @PostMapping("/create-patient")
+    public ResponseEntity<PatientResponse> createpatient(@RequestBody CreatePatientRequest request){
+
+        return ResponseEntity.ok(authService.createPatient(request));
+    }
+
 
     @PostMapping("/refresh")
     public ResponseEntity<AuthResponse> refresh(@RequestParam("token") String refreshToken) {

@@ -1,9 +1,9 @@
 package com.hospitalmanagement.authService.service;
 
-import com.hospitalmanagement.authService.dto.AuthResponse;
-import com.hospitalmanagement.authService.dto.LoginRequest;
-import com.hospitalmanagement.authService.dto.SignUpRequest;
+import com.hospitalmanagement.authService.dto.*;
 import com.hospitalmanagement.authService.entity.User;
+import com.hospitalmanagement.authService.entity.UserRole;
+import com.hospitalmanagement.authService.feign.PatientFeignClient;
 import com.hospitalmanagement.authService.repository.UserRepository;
 import com.hospitalmanagement.authService.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +25,8 @@ public class AuthService {
     private final JwtUtil jwtUtil;
 
     private final AuthenticationManager authenticationManager;
+
+    private final PatientFeignClient patientFeignClient;
 
 //    public String signup(SignUpRequest request){
 //
@@ -54,13 +56,64 @@ public class AuthService {
         var user = User.builder().username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole()).build();
-        userRepository.save(user);
-        var jwtToken = jwtUtil.generateToken(user);
-        var refreshToken = jwtUtil.generateRefresh(new HashMap<>(), user);
+//                .role(request.getRole())
+                .role(UserRole.PATIENT)
+                .build();
+     User savedUser = userRepository.save(user);
+
+     //added newly for patientservice to save patient in the patient_db
+            CreatePatientRequest patientRequest =
+                    CreatePatientRequest.builder()
+                            .userId(savedUser.getId())
+                            .patientname(savedUser.getUsername())
+                            .email(savedUser.getEmail())
+                            .build();
+
+        System.out.println("Calling PatientService with userId: " + savedUser.getId());
+
+        PatientResponse patient = patientFeignClient.createPatient(patientRequest);//until here
+
+        System.out.println("Patient created: " + patient);
+
+        var jwtToken = jwtUtil.generateToken(savedUser);
+        var refreshToken = jwtUtil.generateRefresh(new HashMap<>(), savedUser);
         return AuthResponse.builder().token(jwtToken).refreshToken(refreshToken)
                 .build();
     }
+
+    public DoctorResponse createDoctor(CreateDoctorRequest request){
+
+        User doctor = User.builder().username(request.getUsername())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(UserRole.DOCTOR)
+                .build();
+
+        User saveDoctor = userRepository.save(doctor);
+
+        return DoctorResponse.builder().id(saveDoctor.getId())
+                .username(saveDoctor.getUsername())
+                .email(saveDoctor.getEmail())
+                .build();
+    }
+
+    public PatientResponse createPatient(CreatePatientRequest request){
+
+        User patient = User.builder().username(request.getPatientname())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(UserRole.PATIENT)
+                .build();
+
+        User savepatient = userRepository.save(patient);
+
+        return PatientResponse.builder().id(savepatient.getId())
+                .patientname(savepatient.getUsername())
+                .email(savepatient.getEmail())
+                .build();
+
+    }
+
     public AuthResponse authenticate(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())

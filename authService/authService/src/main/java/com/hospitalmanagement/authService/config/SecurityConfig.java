@@ -31,7 +31,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request.requestMatchers(
                                 "/auth/**",  // Your specific API access,
                                 "/v3/api-docs/**",
-                                "/swagger-ui/**",
+                                "/doctor/**",
+                                "/patient/**",
                                 "/swagger-ui.html",
                                 "/webjars/**")
                         .permitAll()
