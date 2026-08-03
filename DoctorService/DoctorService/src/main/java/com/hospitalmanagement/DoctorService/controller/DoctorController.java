@@ -1,7 +1,10 @@
 package com.hospitalmanagement.DoctorService.controller;
 
+import com.hospitalmanagement.DoctorService.dto.DoctorAvailabililtyRequest;
+import com.hospitalmanagement.DoctorService.dto.DoctorAvailabilityResponse;
 import com.hospitalmanagement.DoctorService.dto.DoctorRequest;
 import com.hospitalmanagement.DoctorService.entity.Doctor;
+import com.hospitalmanagement.DoctorService.entity.DoctorAvailability;
 import com.hospitalmanagement.DoctorService.entity.Specialization;
 import com.hospitalmanagement.DoctorService.feign.AuthFeignClient;
 import com.hospitalmanagement.DoctorService.service.DoctorService;
@@ -14,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.Doc;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -78,11 +82,19 @@ public class DoctorController {
        return ResponseEntity.badRequest().build();
     }
     @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
-    @PutMapping("/{id}/availability")
-    public Doctor updateAvailability( @PathVariable Long id,
-                                      @RequestParam LocalTime from,
-                                      @RequestParam LocalTime to) {
-        return doctorService.updateAvailability( id, from, to );
+    @PutMapping("/{doctorId}/availability")
+    public ResponseEntity<DoctorAvailabilityResponse> updateAvailability(@PathVariable Long doctorId,
+                                                                         @RequestBody DoctorAvailabililtyRequest request
+                                                                 ) {
+        return ResponseEntity.ok(doctorService.setAvailability(doctorId, request));
+
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PATIENT')")
+    @GetMapping("/{doctorId}/availabilities")
+    public ResponseEntity<List<DoctorAvailabilityResponse>> checkAvailability(@PathVariable Long doctorId) {
+        return ResponseEntity.ok(doctorService.getDoctorAvailabilities(doctorId));
+
     }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
