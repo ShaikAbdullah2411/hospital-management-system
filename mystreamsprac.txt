@@ -1,0 +1,103 @@
+
+// Online IDE - Code Editor, Compiler, Interpreter
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.function.Function;
+
+
+
+public class Main
+{
+    public static void main(String[] args) {
+        System.out.println("Welcome to Online IDE!! Happy Coding :)");
+        
+//         List<List<String>> data = List.of(
+//     List.of("A", "B"),
+//     List.of("C", "D")
+// );
+
+//     System.out.println(data);
+
+//       List<String> mynew = data.stream().flatMap(List::stream)
+//       .collect(Collectors.toSet());
+       
+//       System.out.println(mynew);
+
+    // String mystring = "i love java";
+    
+    //         Character mynewchar = mystring.chars().
+    //                         mapToObj(c -> (char)c)
+    //                         .filter(ch-> ch!= ' ')
+    //                         .collect(Collectors.groupingBy(
+    //                             Function.identity(), 
+    //                             LinkedHashMap::new,
+    //                             Collectors.counting()
+    //                             ))
+    //                             .entrySet()
+    //                             .stream().filter(e -> e.getValue() > 1)
+    //                             .skip(k-1)
+    //                             .map(Map.Entry::getKey)
+    //                             .findFirst()
+    //                             .orElse(null);
+                                
+    //     System.out.println("mynewchar is" +mynewchar);
+    
+            String str = "I love java";
+            
+            // Set<Character> vowels = Set.of('a', 'e', 'i', 'o', 'u');
+            
+            // long count = str.toLowerCase().chars()
+            // .mapToObj(ch->(char)ch)
+            // .filter(Character::isLetter)
+            // .filter(c -> !vowels.contains(c))
+            //                 .count();
+                    
+            //         System.out.println(count);
+            
+            // Map<Character, Long> myword = str.chars().mapToObj(c -> (char)c)
+            //                                 .collect(Collectors.groupingBy(
+            //                                     Function.identity(),
+            //                                     LinkedHashMap::new,
+            //                                     Collectors.counting()
+            //                                     ));
+            //                     System.out.println(myword);
+                        
+        // Character mychar = str.chars().mapToObj(c -> (char)c)
+        //                     .collect(Collectors.groupingBy(
+        //                         Function.identity(),
+        //                         LinkedHashMap::new,
+        //                         Collectors.counting()))
+        //                         .entrySet()
+        //                         .stream()
+        //                         .filter(entry -> entry.getValue() == 1)
+        //                         .map(Map.Entry::getKey)
+        //                         .findFirst()
+        //                         .orElse(null);
+                                
+        //                         System.out.println(mychar);
+        
+        // String mystring = Arrays.stream(str.split(" "))
+        //                   .map(word -> new StringBuilder(word).reverse().toString())
+        //                     .collect(Collectors.joining(" "));
+        //             System.out.println(mystring);
+        
+        List<String> mylist = List.of("java", "jdbc", "react");
+        
+        // List<String> newlist = mylist.stream().map(ch -> ch.toUpperCase())
+        //                         .collect(Collectors.toList());
+                                
+        //                 System.out.println(newlist);
+        
+        
+        List<String> newList = mylist.stream().filter(vtr -> vtr.startsWith("j"))
+                                .map(m -> m.toUpperCase())
+                .collect(Collectors.toList());;
+                                
+                    System.out.println(newList);
+        
+        
+        
+        
+                        
+    }
+}
