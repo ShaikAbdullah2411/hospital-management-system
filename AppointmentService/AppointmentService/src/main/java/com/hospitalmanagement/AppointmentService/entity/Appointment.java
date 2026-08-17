@@ -55,8 +55,9 @@ public class Appointment {
 
     private Integer estimatedWaitingMinutes;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String bookedByRole;
+    private BookingRole bookedByRole;
 
     @Column(nullable = false)
     private Long bookedByUserId;
@@ -67,6 +68,8 @@ public class Appointment {
 
     private LocalDateTime updatedAt;
 
+    @Version
+    private Long version;
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();

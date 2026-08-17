@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -54,7 +55,22 @@ public class DoctorService {
        return doctorRepository.findByActiveTrue();
     }
     public Doctor getDoctorById(Long id){
-        return doctorRepository.findById(id).orElseThrow(() ->new DoctorNotFoundException("Doctor not found"));
+        return doctorRepository.findById(id).orElseThrow(() -> new DoctorNotFoundException("Doctor not found"));
+    }
+
+    public DoctorAppointmentsResponse getDoctor(Long id){
+
+        Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new DoctorNotFoundException(" doctor not available to book"));
+
+        return DoctorAppointmentsResponse.builder()
+                .id(doctor.getId())
+                .userId(doctor.getUserId())
+                .doctorname(doctor.getDoctorname())
+                .specialization(doctor.getSpecialization())
+                .email(doctor.getEmail())
+                .phone(doctor.getPhone())
+                .active(true).build();
+
     }
 
 //    public Doctor updateAvailability(Long id, LocalDate date, LocalTime from, LocalTime to){
@@ -129,6 +145,29 @@ public class DoctorService {
                         .active(availability.isActive())
                         .build())
                 .toList();
+    }
+    public DoctorAvailabilityResponse getDoctorAvailabilityByDate(Long doctorId, LocalDate date) {
+
+        Doctor doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found"));
+
+
+//        Optional<DoctorAvailability> availabilities = repository.findByDoctorAndAvailableDateAndActiveTrue(doctor, date);
+        DoctorAvailability availability = repository
+                .findByDoctorAndAvailableDateAndActiveTrue(doctor, date)
+                .orElseThrow(() -> new DoctorNotFoundException("Doctor availability not found for date: " + date));
+
+        return  DoctorAvailabilityResponse.builder()
+                        .id(availability.getId())
+                        .doctorId(doctor.getId())
+                        .doctorname(doctor.getDoctorname())
+                        .availableDate(availability.getAvailableDate())
+                        .availableFrom(availability.getAvailableFrom())
+                        .availableTo(availability.getAvailableTo())
+                        .slotDuration(availability.getSlotDuration())
+                        .active(availability.isActive())
+                        .build();
+
     }
 
 

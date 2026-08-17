@@ -1,8 +1,6 @@
 package com.hospitalmanagement.DoctorService.controller;
 
-import com.hospitalmanagement.DoctorService.dto.DoctorAvailabililtyRequest;
-import com.hospitalmanagement.DoctorService.dto.DoctorAvailabilityResponse;
-import com.hospitalmanagement.DoctorService.dto.DoctorRequest;
+import com.hospitalmanagement.DoctorService.dto.*;
 import com.hospitalmanagement.DoctorService.entity.Doctor;
 import com.hospitalmanagement.DoctorService.entity.DoctorAvailability;
 import com.hospitalmanagement.DoctorService.entity.Specialization;
@@ -58,6 +56,16 @@ public class DoctorController {
 
         return new ResponseEntity<>(doctorById, HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PATIENT')")
+    @GetMapping("/{id}")
+    public ResponseEntity<DoctorAppointmentsResponse> getDoctorbyId_2(@PathVariable Long id){
+
+        DoctorAppointmentsResponse doctor = doctorService.getDoctor(id);
+
+        return new ResponseEntity<>(doctor, HttpStatus.OK);
+    }
+
+
 //    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PATIENT')")
 //    @GetMapping("/{doctorname}")
 //    public ResponseEntity<Doctor> getDoctorByName(@PathVariable String doctorname){
@@ -95,6 +103,15 @@ public class DoctorController {
     public ResponseEntity<List<DoctorAvailabilityResponse>> checkAvailability(@PathVariable Long doctorId) {
         return ResponseEntity.ok(doctorService.getDoctorAvailabilities(doctorId));
 
+    }
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PATIENT')")
+    @GetMapping("/{doctorId}/checkavailability")
+    public ResponseEntity<DoctorAvailabilityResponse> getAvailabilityByDate(
+            @PathVariable Long doctorId,
+            @RequestParam LocalDate date) {
+
+        return ResponseEntity.ok(
+                doctorService.getDoctorAvailabilityByDate(doctorId, date));
     }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
