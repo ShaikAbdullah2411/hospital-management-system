@@ -57,7 +57,7 @@ public class DoctorController {
         return new ResponseEntity<>(doctorById, HttpStatus.OK);
     }
     @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PATIENT')")
-    @GetMapping("/{id}")
+    @GetMapping("/appointment/{id}")
     public ResponseEntity<DoctorAppointmentsResponse> getDoctorbyId_2(@PathVariable Long id){
 
         DoctorAppointmentsResponse doctor = doctorService.getDoctor(id);
