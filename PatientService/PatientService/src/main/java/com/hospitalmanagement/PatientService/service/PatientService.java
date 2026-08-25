@@ -103,6 +103,18 @@ public class PatientService {
         return patientRepository.findById(id).orElseThrow(()-> new PatientNotFoundException("patient not found"));
     }
 
+    public PatientResponse getPatientbyUserId(Long userId){
+
+        Patient patient = patientRepository.findByUserId(userId).orElseThrow(() -> new PatientNotFoundException("patient with userid not found"));
+
+        return PatientResponse.builder().id(patient.getId())
+                .userId(patient.getUserId())
+                .patientname(patient.getPatientname())
+                .email(patient.getEmail())
+                .active(patient.isActive())
+                .build();
+    }
+
     public void deletePatient(Long id){
 
         Patient patient = getPatientById(id);

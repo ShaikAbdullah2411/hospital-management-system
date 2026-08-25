@@ -18,6 +18,8 @@ public class DoctorAvailabilityResponse {
 
     private Long doctorId;
 
+    private String doctorname;
+
     private LocalDate availableDate;
 
     private LocalTime availableFrom;

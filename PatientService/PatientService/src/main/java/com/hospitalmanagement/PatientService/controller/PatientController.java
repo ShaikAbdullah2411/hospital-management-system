@@ -66,6 +66,16 @@ public class PatientController {
         return new ResponseEntity<>(patientById, HttpStatus.OK);
 
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PATIENT')")
+    @GetMapping("/patientuserId/{userId}")
+    public ResponseEntity<PatientResponse> getpatientbyUserId(@PathVariable Long userId){
+
+        PatientResponse patientById = patientService.getPatientbyUserId(userId);
+
+        return new ResponseEntity<>(patientById, HttpStatus.OK);
+
+    }
     @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PATIENT')")
     @GetMapping("/search")
     public ResponseEntity<Patient> getPatientByName(@RequestParam String patientname){
