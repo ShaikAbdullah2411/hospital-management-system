@@ -30,3 +30,27 @@ jobs:
           cache: maven
       - name: Build AppointmentService
         run: mvn clean package
+
+#Authservice-Build
+
+  auth-service-build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: authService/authService
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build AuthService
+        run: mvn clean package
+
