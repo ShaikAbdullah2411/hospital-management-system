@@ -29,5 +29,4 @@ jobs:
           java-version: '21'
           cache: maven
       - name: Build AppointmentService
-        run: ./mvnw clean package
-#        run: mvn clean package
+        run: mvn clean package
