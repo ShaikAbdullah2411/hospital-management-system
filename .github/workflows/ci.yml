@@ -16,7 +16,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: AppointmentService
+        working-directory: AppointmentService/AppointmentService
 
     steps:
       - name: Checkout code
