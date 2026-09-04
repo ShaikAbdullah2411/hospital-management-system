@@ -63,8 +63,8 @@ class DoctorControllerTest {
                 .email("abdullah@gmail.com")
                 .phone("7731018970")
                 .specialization(Specialization.NEUROLOGIST)
-                .availableFrom(LocalTime.of(9, 0))
-                .availableTo(LocalTime.of(17, 0))
+//                .availableFrom(LocalTime.of(9, 0))
+//                .availableTo(LocalTime.of(17, 0))
                 .active(true)
                 .build();
 

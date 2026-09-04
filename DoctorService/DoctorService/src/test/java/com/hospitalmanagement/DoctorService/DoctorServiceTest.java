@@ -1,9 +1,12 @@
 package com.hospitalmanagement.DoctorService;
 
 import com.hospitalmanagement.DoctorService.dto.DoctorRequest;
+import com.hospitalmanagement.DoctorService.dto.DoctorResponse;
 import com.hospitalmanagement.DoctorService.entity.Doctor;
 import com.hospitalmanagement.DoctorService.entity.Specialization;
 import com.hospitalmanagement.DoctorService.exception.DoctorNotFoundException;
+import com.hospitalmanagement.DoctorService.feign.AuthFeignClient;
+import com.hospitalmanagement.DoctorService.repository.DoctorAvailabilityRepository;
 import com.hospitalmanagement.DoctorService.repository.DoctorRepository;
 import com.hospitalmanagement.DoctorService.service.DoctorService;
 import org.junit.jupiter.api.Test;
@@ -26,6 +29,12 @@ class DoctorServiceTest {
     @Mock
     private DoctorRepository doctorRepository;
 
+    @Mock
+    private AuthFeignClient authFeignClient;
+
+    @Mock
+    private DoctorAvailabilityRepository repository;
+
     @InjectMocks
     private DoctorService doctorService;
 
@@ -41,7 +50,14 @@ class DoctorServiceTest {
         request.setAvailableFrom(LocalTime.of(9,0));
         request.setAvailableTo(LocalTime.of(17, 0));
 
-        Doctor saveDoctor = Doctor.builder().id(1L)
+        DoctorResponse user = new DoctorResponse(1L,
+                "Abdullah",
+                "abdullah@gmail.com");
+        Mockito.when(authFeignClient.createDoctor(
+                ArgumentMatchers.any()
+        )).thenReturn(user);
+
+        Doctor saveDoctor = Doctor.builder().id(1L).userId(1L)
                 .doctorname("Abdullah").email("abdullah@gmail.com").phone("7731018970")
                 .specialization(Specialization.NEUROLOGIST).active(true).build();
        org.mockito.Mockito.when(doctorRepository.save(ArgumentMatchers.any(Doctor.class))).thenReturn(saveDoctor);
@@ -49,6 +65,9 @@ class DoctorServiceTest {
         Doctor result = doctorService.addDoctor(request);
         assertNotNull(result);
         assertEquals("Abdullah", result.getDoctorname());
+        assertEquals(1L, result.getUserId());
+
+        Mockito.verify(authFeignClient, Mockito.times(1)).createDoctor(ArgumentMatchers.any());
         Mockito.verify(doctorRepository, Mockito.times(1)).save(ArgumentMatchers.any(Doctor.class));
     }
 

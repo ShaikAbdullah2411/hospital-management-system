@@ -19,7 +19,7 @@ class DoctorRepositoryTest {
     @Test
     void findByDoctornameIgnoreCaseAndActiveTrue() {
 
-        Doctor doctor = Doctor.builder().doctorname("Abdullah")
+        Doctor doctor = Doctor.builder().userId(1L).doctorname("Abdullah")
                 .email("abdullah@gmail.com")
                 .specialization(Specialization.NEUROLOGIST)
                 .active(true).build();
