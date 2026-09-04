@@ -113,4 +113,24 @@ jobs:
       - name: Build EurekaServer
         run: mvn clean package
 
+  api-gateway-build:
 
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ApiGateway/ApiGateway
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build ApiGateway
+        run: mvn clean package
