@@ -64,6 +64,18 @@ jobs:
 
       - name: Build AuthService
         run: mvn clean package
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and Push AuthService Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./authService/authService
+          push: true
+          tags: shaikabdullah2411/auth-service:1.0
+
 
   doctor-service-build:
 
