@@ -16,6 +16,13 @@ pipeline{
     }
 }
 }
+    stage('Build authService'){
+      steps{
+        dir('authService/authService'){
+          bat 'call mvnw.cmd clean test'
+        }
+      }
+    }
 }
 }
   
