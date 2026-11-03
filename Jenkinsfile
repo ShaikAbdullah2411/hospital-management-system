@@ -30,6 +30,27 @@ pipeline{
         }
       }
     }
+    stage('Build ApiGateway'){
+      steps{
+        dir('ApiGateway/ApiGateway'){
+          bat 'call mvnw.cmd clean test'
+        }
+      }
+    }
+    stage('Build DoctorService'){
+      steps{
+        dir('DoctorService/DoctorService'){
+          bat 'call mvnw.cmd clean test'
+        }
+      }
+    }
+    stage('Build PatientService'){
+      steps{
+        dir('PatientService/PatientService'){
+          bat 'call mvnw.cmd clean test'
+        }
+      }
+    }
 }
 }
   
