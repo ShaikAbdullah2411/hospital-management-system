@@ -23,6 +23,13 @@ pipeline{
         }
       }
     }
+    stage('Build EurekaServer'){
+      steps{
+        dir('EurekaServer/EurekaServer'){
+          bat 'call mvnw.cmd clean test'
+        }
+      }
+    }
 }
 }
   
