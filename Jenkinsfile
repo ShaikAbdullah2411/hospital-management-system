@@ -9,5 +9,13 @@ pipeline{
                 echo 'Starting Hospital Management System CI/CD Pipeline.'
             }
         }
+    stage('Build AppointmentService'){
+      steps{
+        dir('AppointmentService/AppointmentService'){
+          bat 'call mvnw.cmd clean test'
     }
 }
+}
+}
+}
+  
